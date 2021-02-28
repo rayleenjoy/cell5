@@ -12,6 +12,7 @@
         "barryvdh/laravel-cors": "^2.0",
         "fideloper/proxy": "^4.4",
         "guzzlehttp/guzzle": "^7.2",
+        "jzonta/faker-restaurant": "^2.0",
         "laravel/framework": "^6.20",
         "laravel/tinker": "^2.5"
     },

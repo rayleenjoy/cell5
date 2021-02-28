@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3e0c3063f74f755c64ba539e61adb35",
+    "content-hash": "a3d4f65f921c6b7b5b3e8c626b963780",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -456,6 +456,54 @@
             "time": "2020-12-29T14:50:06+00:00"
         },
         {
+            "name": "fakerphp/faker",
+            "version": "v1.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FakerPHP/Faker.git",
+                "reference": "ab3f5364d01f2c2c16113442fb987d26e4004913"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/ab3f5364d01f2c2c16113442fb987d26e4004913",
+                "reference": "ab3f5364d01f2c2c16113442fb987d26e4004913",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1 || ^8.0"
+            },
+            "conflict": {
+                "fzaninotto/faker": "*"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.4.1",
+                "ext-intl": "*",
+                "phpunit/phpunit": "^7.5.20 || ^8.5.8 || ^9.4.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Faker\\": "src/Faker/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Zaninotto"
+                }
+            ],
+            "description": "Faker is a PHP library that generates fake data for you.",
+            "keywords": [
+                "data",
+                "faker",
+                "fixtures"
+            ],
+            "time": "2020-12-18T16:50:48+00:00"
+        },
+        {
             "name": "fideloper/proxy",
             "version": "4.4.1",
             "source": {
@@ -728,6 +776,52 @@
                 "url"
             ],
             "time": "2020-09-30T07:37:11+00:00"
+        },
+        {
+            "name": "jzonta/faker-restaurant",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jzonta/FakerRestaurant.git",
+                "reference": "235492f77b01d755be2f5307b1ef2bc7164a0f5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jzonta/FakerRestaurant/zipball/235492f77b01d755be2f5307b1ef2bc7164a0f5d",
+                "reference": "235492f77b01d755be2f5307b1ef2bc7164a0f5d",
+                "shasum": ""
+            },
+            "require": {
+                "fakerphp/faker": "^1.9.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.17",
+                "phpstan/phpstan": "^0.12.66",
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FakerRestaurant\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "João Zonta"
+                }
+            ],
+            "description": "Food and Beverage names generate using fakerphp/faker",
+            "homepage": "https://github.com/jzonta/FakerRestaurant",
+            "support": {
+                "issues": "https://github.com/jzonta/FakerRestaurant/issues",
+                "source": "https://github.com/jzonta/FakerRestaurant/tree/v2.0.0"
+            },
+            "time": "2021-01-14T13:23:07+00:00"
         },
         {
             "name": "laravel/framework",
@@ -4317,16 +4411,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "1.16.4",
+            "version": "1.16.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "1da1705e7f6b24ed45af05461463228da424e14f"
+                "reference": "b6aea4a99303d9d32afd486a285162a89af8a8a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/1da1705e7f6b24ed45af05461463228da424e14f",
-                "reference": "1da1705e7f6b24ed45af05461463228da424e14f",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/b6aea4a99303d9d32afd486a285162a89af8a8a3",
+                "reference": "b6aea4a99303d9d32afd486a285162a89af8a8a3",
                 "shasum": ""
             },
             "require": {
@@ -4383,7 +4477,7 @@
                 "laravel",
                 "page"
             ],
-            "time": "2020-10-30T13:40:01+00:00"
+            "time": "2021-02-15T10:21:49+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -4433,54 +4527,6 @@
                 "ignition"
             ],
             "time": "2020-10-16T08:27:54+00:00"
-        },
-        {
-            "name": "fakerphp/faker",
-            "version": "v1.13.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/FakerPHP/Faker.git",
-                "reference": "ab3f5364d01f2c2c16113442fb987d26e4004913"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/FakerPHP/Faker/zipball/ab3f5364d01f2c2c16113442fb987d26e4004913",
-                "reference": "ab3f5364d01f2c2c16113442fb987d26e4004913",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1 || ^8.0"
-            },
-            "conflict": {
-                "fzaninotto/faker": "*"
-            },
-            "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.4.1",
-                "ext-intl": "*",
-                "phpunit/phpunit": "^7.5.20 || ^8.5.8 || ^9.4.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Faker\\": "src/Faker/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "François Zaninotto"
-                }
-            ],
-            "description": "Faker is a PHP library that generates fake data for you.",
-            "keywords": [
-                "data",
-                "faker",
-                "fixtures"
-            ],
-            "time": "2020-12-18T16:50:48+00:00"
         },
         {
             "name": "filp/whoops",
@@ -4598,16 +4644,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "20cab678faed06fac225193be281ea0fddb43b93"
+                "reference": "d1339f64479af1bee0e82a0413813fe5345a54ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/20cab678faed06fac225193be281ea0fddb43b93",
-                "reference": "20cab678faed06fac225193be281ea0fddb43b93",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/d1339f64479af1bee0e82a0413813fe5345a54ea",
+                "reference": "d1339f64479af1bee0e82a0413813fe5345a54ea",
                 "shasum": ""
             },
             "require": {
@@ -4662,7 +4708,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2020-08-11T18:10:13+00:00"
+            "time": "2021-02-24T09:51:49+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -4852,16 +4898,16 @@
         },
         {
             "name": "phar-io/version",
-            "version": "3.0.4",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "e4782611070e50613683d2b9a57730e9a3ba5451"
+                "reference": "bae7c545bef187884426f042434e561ab1ddb182"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/e4782611070e50613683d2b9a57730e9a3ba5451",
-                "reference": "e4782611070e50613683d2b9a57730e9a3ba5451",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/bae7c545bef187884426f042434e561ab1ddb182",
+                "reference": "bae7c545bef187884426f042434e561ab1ddb182",
                 "shasum": ""
             },
             "require": {
@@ -4895,7 +4941,7 @@
                 }
             ],
             "description": "Library for handling version information and constraints",
-            "time": "2020-12-13T23:18:30+00:00"
+            "time": "2021-02-23T14:00:09+00:00"
         },
         {
             "name": "php-parallel-lint/php-console-color",
@@ -6674,5 +6720,5 @@
         "php": "^7.2.5|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }

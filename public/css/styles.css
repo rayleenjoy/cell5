@@ -6377,6 +6377,7 @@ button.bg-dark:focus {
 
   .d-md-inline-block {
     display: inline-block !important;
+    width: 30% !important;
   }
 
   .d-md-block {

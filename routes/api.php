@@ -20,4 +20,5 @@ use Illuminate\Http\Request;
 Route::resource('/recipe', 'RecipeController');
 Route::post('/recipe/list', 'RecipeController@index');
 Route::get('/edamam', 'EdamamAPIController@get_request');
+Route::post('/recipe/search', 'RecipeController@edamam_search');
 

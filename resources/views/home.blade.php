@@ -1,6 +1,10 @@
 @extends('layouts.master')
 @section('title', 'My Recibe Book')
-
+<style>
+    .l_hide{
+        display: none;
+    }
+</style>
 @section('content')
     <div class="card mb-4">
         <div class="card-header">
@@ -140,6 +144,40 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" id="recipeList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Search Result</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <input type="hidden" name="id" id="delete_id">
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="search_list" class="table table-bordered">
+                        <thead>
+                            <th></th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Calories</th>
+                            <th>Source</th>
+                            <th>Health Labels</th>
+                            <th>Ingredients</th>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" name="submit" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+      </div>
+    </div>
 @endsection
 
 @section('plugins-script')
@@ -207,9 +245,79 @@ $(document).ready(function() {
         });
         event.preventDefault();
     });
+
+    $("#recipeSearch").submit(function(event) {
+        var $form = $(this).serialize();
+
+        $.ajax({
+            type        : 'POST', 
+            url         : '{{url("api/recipe/search")}}', 
+            data        : $form,
+            dataType    : 'json',
+            encode          : true
+        }).done(function(data) {
+            $('#recipeList').modal('show');
+            var content = '';
+            if(data.data.length>0){
+                $.each( data.data, function( key, value ) {
+                    var ing = load_str_content(value['ingredientLines'], key);
+                    content += '<tr>';
+                        content += '<td>';
+                            // content += '<button class="btn btn-md btn-info btnEdit" onclick="addtocollection('+value['id']+')"> Add to Collection </button> ';
+                            content += '<a target="_blank"  class="btn btn-md btn-success" href="'+value['url']+'"> View </a> ';
+                        content += '</td>';
+                        content += '<td><img src="'+value['image']+'" alt="" width="100px;"></td></td>';
+                        content += '<td>'+value['label']+'</td>';
+                        content += '<td>'+value['calories']+'</td>';
+                        content += '<td>'+value['healthLabels']+'</td>';
+                        content += '<td>'+ing+'</td>';
+                    content += '</tr>';
+                });
+
+            }
+            else{
+                content += '<tr>';
+                    content += '<td colspan="8" align="center">No result found.</td>';
+                content += '</tr>';
+            }
+            $('#search_list tbody').html(content);
+        });
+        event.preventDefault();
+    });
 });
 
 
+function load_str_content(ingr, key)
+{
+    $('.l_hide').css('display', 'none');
+    var content = '';
+        content += '<ul class="list-unstyled">';
+        $.each( ingr, function( key, value ) {
+            var clss = 'l_default';
+            if(key > 2){
+                clss = 'l_hide'; 
+            }
+             content += '<li class="'+clss+'"> <strong>&#x3e;</strong>' +value+'</li>';
+        });
+        content += '</ul>';
+    content += '<small><u><a type="button" onclick="show_str('+key+')" id="show_hide_str_'+key+'" data-val="0"> Show More<a/></u></small>';
+    return content;
+}
+
+function show_str(key)
+{
+    var val = $('#show_hide_str_'+key).attr('data-val');
+    console.log(val);
+    if(val==0){
+        $('.l_hide').css('display', 'inherit');
+        $('#show_hide_str_'+key).text('Show Less');
+    }else{
+        $('.l_hide').css('display', 'none');
+        $('#show_hide_str_'+key).text('Show More');
+    }
+    var hide = (val==0)?1:0;
+    $('#show_hide_str_'+key).attr('data-val', hide);
+}
 load_table();
 
 function load_table(key = '', value='')
@@ -281,6 +389,8 @@ function search_list(){
     var key = $('#filter').val();
     load_table(key, value);
 }
+
+
 
 </script>
 @stop
