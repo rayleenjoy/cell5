@@ -21,7 +21,7 @@ class CreateRecipesTable extends Migration
             $table->text('ingredients');
             $table->text('directions')->nullable();
             $table->text('notes')->nullable();
-            $table->text('nutrition_facts')->nullable();
+            $table->string('calories', 50)->nullable();
             $table->timestamps();
         });
     }

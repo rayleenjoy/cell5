@@ -4,18 +4,26 @@
     .l_hide{
         display: none;
     }
+    .modal-llg{
+        min-width: 1000px;
+    }
 </style>
 @section('content')
+    <div class="row col-md-12" style="margin-bottom: 20px;">
+        <button class="btn btn-md btn-primary pull-right"  id="btnNew"> New Recipe</button>
+    </div>
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
-            DataTable Example
+            My Collection Lists
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="">
                 <div class="row" style="margin-bottom: 20px;">
                     <div class="col-md-4">
-                        <button class="btn btn-md btn-primary pull-right"  id="btnNew"> New Recipe</button>
+                        <span>Page</span>
+                        <select name="" id="page" >
+                        </select>
                     </div>
                     <div class="col-md-2">
                          <div class="input-group">
@@ -42,24 +50,26 @@
                             <th>Name</th>
                             <th>Type</th>
                             <th>Cuisine</th>
-                            <th>Date</th>
+                            <th>Calories</th>
                             <th>Notes</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
                        
                     </tbody>
                 </table>
+                
             </div>
         </div>
     </div>
 
     <!-- Modal -->
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-dialog modal-llg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">New Recipe</h5>
+            <h5 class="modal-title" id="exampleModalLabel"><span id="modalheader">Add</span> Recipe</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -83,7 +93,15 @@
                 <div class="row form-group">
                     <label for="" class="col-md-2">Type</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" name="type">
+                        <select name="type" id="" class="form-control">
+                            <option value="Soup">Soup</option>
+                            <option value="Appetizer">Appetizer</option>
+                            <option value="Salad">Salad</option>
+                            <option value="Fish">Fish</option>
+                            <option value="Main">Main </option>
+                            <option value="Dessert">Dessert </option>
+                            <option value="Others">Others</option>
+                        </select>
                     </div>
                 </div>
               </div>
@@ -91,7 +109,15 @@
                 <div class="row form-group">
                     <label for="" class="col-md-2">Cuisine</label>
                     <div class="col-md-10">
-                        <input type="text" class="form-control" name="cuisine">
+                        <input type="text" class="form-control" name="cuisine" placeholder="Italian, American, Chinese, etc. Food">
+                    </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row form-group">
+                    <label for="" class="col-md-2">Calories</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" name="calories">
                     </div>
                 </div>
               </div>
@@ -138,7 +164,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" name="submit" class="btn btn-danger">Confirm</button>
+                <button type="submit" name="submit" class="btn btn-danger" id="btnConfirmDelete">Confirm</button>
             </div>
            </form>
         </div>
@@ -146,7 +172,7 @@
     </div>
 
     <div class="modal fade" id="recipeList" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-dialog modal-llg" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Search Result</h5>
@@ -165,7 +191,6 @@
                             <th>Calories</th>
                             <th>Source</th>
                             <th>Health Labels</th>
-                            <th>Ingredients</th>
                         </thead>
                         <tbody></tbody>
                     </table>
@@ -173,7 +198,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" name="submit" class="btn btn-danger">Confirm</button>
             </div>
         </div>
       </div>
@@ -186,11 +210,14 @@ $(document).ready(function() {
     $('#btnNew').on('click', function(){
         $('#addModal').modal('show');
         $('#is_add').val(1);
+        $('.success-msg').html('');
+        $('#modalheader').text('Add');
     });
     $("#addForm").submit(function(event) {
         var $form = $(this).serialize();
         $('.help-block').remove();
         $('#addForm input').removeClass('has-error');
+        $('#addForm textarea').removeClass('has-error');
 
         var add = $('#is_add').val();
         if(add==1){
@@ -209,13 +236,15 @@ $(document).ready(function() {
             dataType    : 'json',
             encode          : true
         }).done(function(data) {
-            console.log(data);
             if(data.success){
                 $('.success-msg').html('<div class="alert alert-success">Recipe successfully Added.</div>');
                 $(".success-msg").fadeTo(2000, 500).slideUp(500, function(){
                     $(".success-msg").alert('close');
-                    $('#addForm').trigger('reset'); 
                 });
+                if(add==1){
+                    $('#addForm').trigger('reset'); 
+                }
+                load_table();
             }else{
                 var msg = data.message.message;
                 $.each( msg, function( key, value ) {
@@ -225,6 +254,7 @@ $(document).ready(function() {
 
             }
         });
+
         event.preventDefault();
     });
 
@@ -238,17 +268,17 @@ $(document).ready(function() {
             dataType    : 'json',
             encode          : true
         }).done(function(data) {
-            $('.success-msg').html('<div class="alert alert-success">Recipe successfully Added.</div>');
-            $("#deleteModal").fadeTo(2000, 500).slideUp(500, function(){
-                $("#deleteModal").modal('hide');
-            });
+            $('.success-msg').html('<div class="alert alert-success">Recipe deleted successfully.</div>');
+            $('#list tbody tr#row_'+id).remove();
+            $('#btnConfirmDelete').attr('disabled', true);
+            load_table();
         });
         event.preventDefault();
     });
 
     $("#recipeSearch").submit(function(event) {
         var $form = $(this).serialize();
-
+        $('#search_list tbody').html('');
         $.ajax({
             type        : 'POST', 
             url         : '{{url("api/recipe/search")}}', 
@@ -260,17 +290,15 @@ $(document).ready(function() {
             var content = '';
             if(data.data.length>0){
                 $.each( data.data, function( key, value ) {
-                    var ing = load_str_content(value['ingredientLines'], key);
                     content += '<tr>';
                         content += '<td>';
-                            // content += '<button class="btn btn-md btn-info btnEdit" onclick="addtocollection('+value['id']+')"> Add to Collection </button> ';
                             content += '<a target="_blank"  class="btn btn-md btn-success" href="'+value['url']+'"> View </a> ';
                         content += '</td>';
                         content += '<td><img src="'+value['image']+'" alt="" width="100px;"></td></td>';
                         content += '<td>'+value['label']+'</td>';
                         content += '<td>'+value['calories']+'</td>';
                         content += '<td>'+value['healthLabels']+'</td>';
-                        content += '<td>'+ing+'</td>';
+                        content += '<td>'+value['source']+'</td>';
                     content += '</tr>';
                 });
 
@@ -287,27 +315,9 @@ $(document).ready(function() {
 });
 
 
-function load_str_content(ingr, key)
-{
-    $('.l_hide').css('display', 'none');
-    var content = '';
-        content += '<ul class="list-unstyled">';
-        $.each( ingr, function( key, value ) {
-            var clss = 'l_default';
-            if(key > 2){
-                clss = 'l_hide'; 
-            }
-             content += '<li class="'+clss+'"> <strong>&#x3e;</strong>' +value+'</li>';
-        });
-        content += '</ul>';
-    content += '<small><u><a type="button" onclick="show_str('+key+')" id="show_hide_str_'+key+'" data-val="0"> Show More<a/></u></small>';
-    return content;
-}
-
 function show_str(key)
 {
     var val = $('#show_hide_str_'+key).attr('data-val');
-    console.log(val);
     if(val==0){
         $('.l_hide').css('display', 'inherit');
         $('#show_hide_str_'+key).text('Show Less');
@@ -320,9 +330,11 @@ function show_str(key)
 }
 load_table();
 
-function load_table(key = '', value='')
+function load_table(key = '', value='', page=1)
 {
+    var page_limit = 5;
     $('#list tbody').html('');
+    $('#page').html('');
     $.ajax({
         type        : 'POST', 
         url         : '{{url("api/recipe/list")}}', 
@@ -330,13 +342,15 @@ function load_table(key = '', value='')
         data        : {
                         key:key,
                         value:value,
+                        page:page,
+                        page_limit:page_limit
                     },
         encode      : true
-    }).done(function(data) {
+    }).done(function(result) {
         var content = '';
-        if(data.data.length>0){
-            $.each( data.data, function( key, value ) {
-                content += '<tr>';
+        if(result.data.data.length>0){
+            $.each( result.data.data, function( key, value ) {
+                content += '<tr  id="row_'+value['id']+'">';
                     content += '<td>';
                         content += '<button class="btn btn-md btn-info btnEdit" onclick="editRecord('+value['id']+')"> Edit </button> ';
                         content += '<button class="btn btn-md btn-danger btnDelete" onclick="deleteRecord('+value['id']+')"> Delete </button>';
@@ -344,11 +358,18 @@ function load_table(key = '', value='')
                     content += '<td>'+value['name']+'</td>';
                     content += '<td>'+value['type']+'</td>';
                     content += '<td>'+value['cuisine']+'</td>';
+                    content += '<td>'+value['calories']+'</td>';
+                    content += '<td>'+value['notes']+'</td>';
                     content += '<td>'+value['created_at']+'</td>';
-                content += '<td>'+value['notes']+'</td>';
-
                 content += '</tr>';
             });
+            var total_pages = result.data.pagination.total_pages;
+            var count = result.data.pagination.count;
+            var option = '';
+            for (var i = 1; i <= total_pages; i++) {
+                option += '<option value="'+(i)+'" '+(page==i?'selected':'')+'>'+i+'</option>';
+            }
+            $('#page').append(option);
         }else{
             content += '<tr>';
                 content += '<td colspan="6" align="center">No result found.</td>';
@@ -358,10 +379,14 @@ function load_table(key = '', value='')
     });
 }
 
+
 function editRecord(id)
 {
+    $('.success-msg').html('');
     $('#addModal').modal('show');
     $('#is_add').val(0);
+    $('#modalheader').text('Edit');
+
     $.ajax({
         type        : 'GET', 
         url         : '{{url("api/recipe")}}'+'/'+id, 
@@ -379,18 +404,22 @@ function editRecord(id)
 
 function deleteRecord(id)
 {
-     $('.success-msg').html('');
-     $('#deleteModal').modal('show');
-     $('#delete_id').val(id);
+    $('.success-msg').html('');
+    $('#deleteModal').modal('show');
+    $('#delete_id').val(id);
+    $('#btnConfirmDelete').attr('disabled', false);
 }
 
 function search_list(){
     var value = $('#value').val();
     var key = $('#filter').val();
-    load_table(key, value);
+    var page = $('#page').val();
+    load_table(key, value, page);
 }
 
-
+$('#page').on('change', function(){
+    search_list();
+});
 
 </script>
 @stop

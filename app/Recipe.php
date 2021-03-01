@@ -12,6 +12,6 @@ class Recipe extends Model
      * @var array
      */
     protected $table = 'recipe';
-    protected $fillable = ['name','cuisine','type','ingredients','directions','other_notes','nutrition_facts'];
+    protected $fillable = ['name','cuisine','type','ingredients','directions','notes','calories'];
 
 }
