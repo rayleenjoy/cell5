@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'My Recibe Book')
+@section('title', 'My Recipe Collection')
 <style>
     .l_hide{
         display: none;
@@ -29,8 +29,8 @@
                          <div class="input-group">
                             <select name="filter" id="filter" class="form-control" style="width: 100px;">
                                 <option value="name">Name</option>
-                                <option value="name">Type</option>
-                                <option value="name">Cuisine</option>
+                                <option value="type">Type</option>
+                                <option value="cuisine">Cuisine</option>
                             </select>
                         </div>
                     </div>
@@ -159,7 +159,7 @@
           <form method="post" action="" id="deleForm">
             <input type="hidden" name="id" id="delete_id">
             <div class="modal-body">
-              <div class="success-msg"></div>
+              <div class="success-msg-deleted"></div>
               @csrf
             </div>
             <div class="modal-footer">
@@ -211,6 +211,7 @@ $(document).ready(function() {
         $('#addModal').modal('show');
         $('#is_add').val(1);
         $('.success-msg').html('');
+         $('#addForm').trigger('reset'); 
         $('#modalheader').text('Add');
     });
     $("#addForm").submit(function(event) {
@@ -268,7 +269,7 @@ $(document).ready(function() {
             dataType    : 'json',
             encode          : true
         }).done(function(data) {
-            $('.success-msg').html('<div class="alert alert-success">Recipe deleted successfully.</div>');
+            $('.success-msg-deleted').html('<div class="alert alert-success">Recipe deleted successfully.</div>');
             $('#list tbody tr#row_'+id).remove();
             $('#btnConfirmDelete').attr('disabled', true);
             load_table();
@@ -404,7 +405,7 @@ function editRecord(id)
 
 function deleteRecord(id)
 {
-    $('.success-msg').html('');
+    $('.success-msg-deleted').html('');
     $('#deleteModal').modal('show');
     $('#delete_id').val(id);
     $('#btnConfirmDelete').attr('disabled', false);

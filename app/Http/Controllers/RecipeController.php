@@ -29,6 +29,7 @@ class RecipeController extends Controller
         }else{
             $recipe = Recipe::where($key, 'like', '%'.$value.'%');
         }
+
         $recipe = $recipe->paginate($paginate);
         $collection = RecipeCollection::make($recipe);
         return $this->response(true, $collection);
